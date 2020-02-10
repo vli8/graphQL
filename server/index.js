@@ -21,7 +21,7 @@ apolloServer.applyMiddleware({ app });
 app.listen(3000, async () => {
   console.log("listening on port 3000");
   try {
-    db.sync();
+    await db.sync({ force: true });
     seed();
   } catch (error) {
     console.log("error:", error);
