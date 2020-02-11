@@ -118,6 +118,8 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//This component uses client.query for basic understanding
+//Component HomepageV2 will use useQuery which is recommended
 var Homepage = function Homepage() {
   var getStudents = (0, _react.useCallback)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     var result;
@@ -157,6 +159,78 @@ var Homepage = function Homepage() {
 };
 
 exports.default = Homepage;
+
+/***/ }),
+
+/***/ "./app/components/homepagev2.jsx":
+/*!***************************************!*\
+  !*** ./app/components/homepagev2.jsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(["\n    query {\n      getCampuses {\n        name\n        description\n      }\n    }\n  "], ["\n    query {\n      getCampuses {\n        name\n        description\n      }\n    }\n  "]);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _client = __webpack_require__(/*! @apollo/client */ "./node_modules/@apollo/client/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var HomepageV2 = function HomepageV2() {
+  var GET_CAMPUSES = (0, _client.gql)(_templateObject);
+
+  var _useQuery = (0, _client.useQuery)(GET_CAMPUSES),
+      loading = _useQuery.loading,
+      error = _useQuery.error,
+      data = _useQuery.data;
+
+  if (loading) {
+    return _react2.default.createElement(
+      "div",
+      null,
+      " HomepageV2 "
+    );
+  }
+  if (error) {
+    return _react2.default.createElement(
+      "div",
+      null,
+      "Error in HomepageV2"
+    );
+  }
+  console.log(data);
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(
+      "h1",
+      null,
+      " Success in HomepageV2"
+    ),
+    data.getCampuses.map(function (campus) {
+      return _react2.default.createElement(
+        "h2",
+        { key: campus.name },
+        "campus: ",
+        campus.name
+      );
+    })
+  );
+};
+
+exports.default = HomepageV2;
 
 /***/ }),
 
@@ -205,6 +279,10 @@ var _homepage = __webpack_require__(/*! ./components/homepage */ "./app/componen
 
 var _homepage2 = _interopRequireDefault(_homepage);
 
+var _homepagev = __webpack_require__(/*! ./components/homepagev2 */ "./app/components/homepagev2.jsx");
+
+var _homepagev2 = _interopRequireDefault(_homepagev);
+
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
 var _client = __webpack_require__(/*! @apollo/client */ "./node_modules/@apollo/client/index.js");
@@ -221,7 +299,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   _react2.default.createElement(
     _reactRouterDom.HashRouter,
     null,
-    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/homepage", component: _homepage2.default })
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/homepage", component: _homepage2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/homepagev2", component: _homepagev2.default })
   )
 ), document.getElementById("app-portal"));
 

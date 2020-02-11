@@ -2,6 +2,8 @@ import React, { useCallback } from "react";
 import { gql } from "@apollo/client";
 import client from "../graphQL/apolloClient";
 
+//This component uses client.query for basic understanding
+//Component HomepageV2 will use useQuery which is recommended
 const Homepage = () => {
   const getStudents = useCallback(async () => {
     const result = await client.query({
